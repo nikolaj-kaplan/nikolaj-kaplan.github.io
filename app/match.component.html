@@ -1,0 +1,13 @@
+
+<div [hidden]="!overlay">
+  <ul>
+    <li (click)="addGoal(player)" *ngFor="#player of currentTeam"><span>{{player}}</span></li>
+  </ul>
+</div>
+
+<div (click)="showOverlay(1)" id="left" class="c1" style="float: left; width: 50%; height: 100%; text-align:center;">
+  <span>{{team1Score}}</span>
+</div>
+<div (click)="showOverlay(2)" id="right" class="c2" style="float: right; width: 50%; height: 100%; text-align:center;">
+  <span>{{team2Score}}</span>
+</div>

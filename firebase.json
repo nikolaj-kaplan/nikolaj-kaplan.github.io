@@ -1,0 +1,12 @@
+{
+  "firebase": "multihockey",
+  "public": ".",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**",
+    "**/typings/**",
+	"tsconfig.json",
+	"package.json"
+  ]
+} 
