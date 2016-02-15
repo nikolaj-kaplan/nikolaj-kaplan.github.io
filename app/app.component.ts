@@ -1,9 +1,9 @@
 import { Component } from 'angular2/core';
 import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from 'angular2/router';
-import { FirebaseService } from './firebase.service';
-import { StartComponent } from './start.component';
-import { DayComponent } from './day.component';
-import { MatchComponent } from './match.component';
+import { FirebaseService } from './data/firebase.service';
+import { StartComponent } from './start/start.component';
+import { DayComponent } from './day/day.component';
+import { MatchComponent } from './match/match.component';
 
 @Component({
   selector: 'my-app',
@@ -22,22 +22,19 @@ import { MatchComponent } from './match.component';
   {
     path: '/start',
     name: 'Start',
-    component: StartComponent,
-    useAsDefault: true
+    component: StartComponent
   },
   {
-    path: '/day',
+    path: '/',
     name: 'Day',
     component: DayComponent,
+    useAsDefault: true
   },
   {
     path: '/match',
     name: 'Match',
     component: MatchComponent,
   }
-
-
-
 ])
 
 export class AppComponent {

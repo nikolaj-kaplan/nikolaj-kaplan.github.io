@@ -1,8 +1,9 @@
 import { Injectable } from 'angular2/core';
-import { Day, Match } from './objects';
+import { Day, Match } from '../objects';
 
 @Injectable()
 export class FirebaseService {
+  currentTeams: any;
   baserUrl = "https://multihockey.firebaseio.com/";
   daysRef: Firebase;
   playersRef: Firebase;
@@ -12,30 +13,12 @@ export class FirebaseService {
   currentMatch: Match;
   currentMatchKey: string;
 
+  allMatches: Match[]
 
-  constructor(){
-    this.daysRef = new Firebase(this.baserUrl + "days");
+
+  constructor() {
     this.playersRef = new Firebase(this.baserUrl + "players");
     this.matchRootRef = new Firebase(this.baserUrl + "matches");
-    this.daysRef.on('value', snapshot => console.log(snapshot));
-  }
-
-  createDay(day:Day) {
-    var x = this.daysRef.push(day);
-    this.currentDay = day; //TODO: add id to day
-  }
-
-  getCurrentDay(){
-    return new Promise<Day>(resolve =>
-      this.daysRef.limitToLast(1).once("value", response => {
-          var day;
-          response.forEach(x => {
-            day = x.val();
-          });
-          resolve(day);
-        }
-      )
-    );
   }
 
   getAllPlayers() {
@@ -43,16 +26,33 @@ export class FirebaseService {
       this.playersRef.once("value", players => {
         return resolve(players.val());
       })
-    );
+      );
   }
 
-  addMatch(match : Match){
+  getAllMatches() {
+    return new Promise<Match[]>(resolve => {
+      var ref = new Firebase("https://multihockey.firebaseio.com/matches");
+      ref.once("value", result => {
+        var matches: Match[] = [];
+        result.forEach(x => {
+          matches.push(x.val())
+        })
+        resolve(matches);
+      })
+    });
+  }
+
+  addMatch(match: Match) {
     this.currentMatch = match;
     var x = this.matchRootRef.push(match);
     this.currentMatchKey = x.key(); // save key to add goals later
+    this.currentTeams = {
+      team1: match.team1,
+      team2: match.team2,
+    };
   }
 
-  updateMatch(match: Match){
+  updateMatch(match: Match) {
     var matchRef = this.matchRootRef.child(this.currentMatchKey);
     matchRef.update(match);
   }
@@ -65,11 +65,11 @@ export class FirebaseService {
           this.currentMatchKey = x.key();
           match = x.val();
         });
-        if(!match.goals) {
+        if (!match.goals) {
           match.goals = []
         }
         resolve(match);
       })
-    );
+      );
   }
 }

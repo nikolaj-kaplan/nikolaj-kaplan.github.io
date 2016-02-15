@@ -1,0 +1,35 @@
+<div [hidden]="!overlay" class="card">
+  <h4>Mål! Hvem scorede?</h4>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item" (click)="addGoal(player)" *ngFor="#player of currentTeam"><span>{{player}}</span></li>
+  </ul>
+  <a href class="btn btn-default" (click)="overlay = false">Fortryd</a>
+</div>
+
+<div [hidden]="overlay" class="score">
+  <div (click)="showOverlay(1)" id="left" class="c1" [ngClass]="{winner: team1Score >= 10, looser: team2Score >= 10}">
+    <h4>Hold 1</h4>
+    <span class="number">{{team1Score}}</span>
+  </div>
+  <div (click)="showOverlay(2)" id="right" class="c2" [ngClass]="{winner: team2Score >= 10, looser: team1Score >= 10}">
+    <h4>Hold 2</h4>
+    <span class="number">{{team2Score}}</span>
+  </div>
+  <div style="clear: both;"></div>
+  <br>
+  <div style="position: fixed; left: 38%">
+    <label class="btn btn-default" (click)="newMatch()">Afslut kampen</label>
+    <label class="btn btn-default" (click)="removeLastGoal()">Fjern sidste mål</label>
+  </div>
+</div>
+
+<div style="position: fixed; bottom: 0; left: 0; padding: 10px; font-size: 2.5vw;">
+  <ul class="no-bullets" *ngIf="match">
+    <li (click)="addGoal(player)" *ngFor="#player of match.team1"><span>{{player}}</span><span [hidden]="getScore(player) === 0"> - {{getScore(player)}}</span></li>
+  </ul>
+</div>
+<div style="position: fixed; bottom: 0; right: 0; padding: 10px; font-size: 2.5vw;">
+  <ul class="no-bullets" *ngIf="match">
+    <li (click)="addGoal(player)" *ngFor="#player of match.team2"><span>{{player}}</span><span [hidden]="getScore(player) === 0"> - {{getScore(player)}}</span></li>
+  </ul>
+</div>

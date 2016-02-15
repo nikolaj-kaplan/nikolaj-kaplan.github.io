@@ -2,11 +2,17 @@
 <html>
   <head>
     <base href="/" />
-    <title>Angular 2 Tour of Heroes</title>
+    <title>Multihockey scoreboard</title>
+
+    <meta name ="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"> -->
+    <link href="https://bootswatch.com/darkly/bootstrap.css" rel="stylesheet" crossorigin="anonymous">
 
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <!-- IE required polyfills, in this exact order -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.33.3/es6-shim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.20/system-polyfills.js"></script>
@@ -18,7 +24,6 @@
     <script src="https://code.angularjs.org/2.0.0-beta.6/angular2.dev.js"></script>
     <script src="https://code.angularjs.org/2.0.0-beta.6/router.dev.js"></script>
     <script src="https://cdn.firebase.com/js/client/2.3.0/firebase.js"></script>
-
     <script>
       System.config({
         transpiler: 'typescript',
@@ -28,9 +33,31 @@
       System.import('app/main')
             .then(null, console.error.bind(console));
     </script>
+    <style>
+      body{
+        background-color: #282C34;
+        color: #ABB2BF;
+        font-size: 3vw;
+        padding: 30px;
+      }
+      ul.no-bullets {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+    </style>
   </head>
 
   <body>
     <my-app>Loading...</my-app>
   </body>
+  <script>
+    window.onresize = function() {
+      $('#fitin div').css('font-size', '20em');
+
+      while( $('#fitin div').height() > $('#fitin').height() ) {
+          $('#fitin div').css('font-size', (parseInt($('#fitin div').css('font-size')) - 1) + "px" );
+      }
+    };
+  </script>
 </html>

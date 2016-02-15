@@ -1,0 +1,56 @@
+.selected {
+  font-weight: bold;
+}
+
+.score .number {
+    font-size: 67vw;
+    line-height: 54vw;
+    letter-spacing: -4vw;
+}
+
+.names {
+  font-size: 5vw;
+}
+
+.c1 {
+float: left; width: 50%; height: 100%; text-align:left;
+}
+
+.c1.winner {
+  width: 80%; height: 100%; text-align:left;
+}
+
+.c1.looser {
+  width: 20%; height: 100%; text-align:left;
+}
+
+
+.c2 {
+  float: right; width: 50%; height: 100%; text-align:right; padding-right: 10px;
+}
+.c2.winner {
+  width: 80%; height: 100%; text-align:right;
+}
+
+.c2.looser {
+  width: 20%; text-align:right;
+}
+
+
+.winner{
+  color: #8AC379
+}
+
+.looser{
+  color: #E06C75
+}
+
+
+
+.looser > .number {
+  font-size: 20vw;
+}
+
+.winner > .number {
+  font-size: 60vw;
+}
