@@ -65,6 +65,14 @@ export class FirebaseService {
           this.currentMatchKey = x.key();
           match = x.val();
         });
+        if(!match){
+          var match : Match = {
+            date : new Date().toDateString(),
+            team1 : [],
+            team2 : [],
+            goals : []
+          };
+        }
         if (!match.goals) {
           match.goals = []
         }
