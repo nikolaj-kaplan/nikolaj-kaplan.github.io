@@ -1,3 +1,8 @@
-<div>
-  <pre>{{goalsPrPlayer | json}}</pre>
-</div>
+<table class="table">
+  <tr><th>Navn</th><th>Kampe</th><th>Sejrer</th><th></th><th>Mål</th><th>Pr. kamp</th></tr>
+  <tr *ngFor="#p of players">
+    <td>{{p.name}}</td>
+    <td>{{p.matches}}</td>
+    <td>{{p.wins}}</td><td><span *ngIf="p.matches > 0">{{p.winsPercentage | number:'1.0-0'}}%</span></td>
+    <td>{{p.goals}}</td><td><span *ngIf="p.matches > 0">{{p.goalsPrMatch | number:'1.2-2'}}</span></td></tr>
+</table>

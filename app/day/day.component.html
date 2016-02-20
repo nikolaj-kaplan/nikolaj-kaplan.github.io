@@ -33,3 +33,11 @@
     <li (click)="addPlayer(player)" *ngFor="#player of inactivePlayers"><span>{{player}}</span></li>
   </ul>
 </div>
+
+<div style="position: fixed; bottom: 0; left: 0; padding: 10px; font-size: 2.5vw;">
+  <h4>Klub</h4>
+  <select (change)="switchClub($event)">
+    <option value="Test">Test</option>
+    <option value="FBSMulti" selected="selected">FBS multi</option>
+  </select>
+</div>

@@ -7,6 +7,9 @@
 </div>
 
 <div [hidden]="overlay" class="score">
+  <div style="position: fixed; left: 38%; top: 5px">
+    <label class="btn btn-default" (click)="swap()">Byt side</label>
+  </div>
   <div (click)="showOverlay(1)" id="left" class="c1" [ngClass]="{winner: team1Score >= 10, looser: team2Score >= 10}">
     <h4>Hold 1</h4>
     <span class="number">{{team1Score}}</span>
@@ -17,7 +20,7 @@
   </div>
   <div style="clear: both;"></div>
   <br>
-  <div style="position: fixed; left: 38%">
+  <div style="position: fixed; left: 38%; bottom: 10px">
     <label class="btn btn-default" (click)="newMatch()">Afslut kampen</label>
     <label class="btn btn-default" (click)="removeLastGoal()">Fjern sidste mål</label>
   </div>

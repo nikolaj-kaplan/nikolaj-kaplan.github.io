@@ -1,4 +1,4 @@
-import { Component, OnInit} from 'angular2/core';
+import { Component, OnInit, } from 'angular2/core';
 import { Router } from 'angular2/router';
 import {RouteParams} from 'angular2/router';
 import { Match } from '../objects';
@@ -16,6 +16,7 @@ export class DayComponent implements OnInit {
   team2: string[];
   inactivePlayers: string[] = [];
   allPlayers: string[];
+  firebaseService: FirebaseService;
 
   constructor(
     private _firebaseService: FirebaseService,
@@ -25,6 +26,12 @@ export class DayComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.firebaseService = this._firebaseService;
+    this.firebaseService.club = "FBSMulti"; //default club
+    this.internalInit();
+  }
+
+  internalInit() {
     // setup the teams. Either based on last match (if it is today) or random
     this._firebaseService.getAllPlayers().then(players => {
       this.allPlayers = players;
@@ -45,6 +52,11 @@ export class DayComponent implements OnInit {
         }
       });
     });
+  }
+
+  switchClub($event) {
+    this.firebaseService.club = $event.target.value;
+    this.internalInit();
   }
 
   shuffelTeams() {
@@ -91,7 +103,7 @@ export class DayComponent implements OnInit {
     this.inactivePlayers.push(player)
   }
 
-  addPlayer(player: string){
+  addPlayer(player: string) {
     this.team1.push(player);
     this.removeElementFromArray(player, this.inactivePlayers);
   }
