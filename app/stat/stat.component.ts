@@ -8,14 +8,14 @@ declare var Firebase: any;
 declare var Enumerable: any;
 
 @Component({
-  selector: 'start',
-  templateUrl: 'app/start/start.component.html',
-  styleUrls: ['app/start/start.component.css'],
+  selector: 'stat',
+  templateUrl: 'app/stat/stat.component.html',
+  styleUrls: ['app/stat/stat.component.css'],
 })
 
 
 
-export class StartComponent implements OnInit {
+export class StatComponent implements OnInit {
   players: Player[]
   goalsPrPlayer: any;
   matches: Match[];
@@ -44,7 +44,6 @@ export class StartComponent implements OnInit {
   }
 
   calculateStats() {
-    debugger;
     // calculate wins
     var winnerNames = []
     this.matches.forEach(m => {
@@ -91,4 +90,7 @@ export class StartComponent implements OnInit {
     else return match.team2;
   }
 
+  back() {
+    this._router.navigate(['Day']);
+  }
 }

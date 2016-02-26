@@ -17,12 +17,14 @@ export class DayComponent implements OnInit {
   inactivePlayers: string[] = [];
   allPlayers: string[];
   firebaseService: FirebaseService;
+  mixing : boolean;
 
   constructor(
     private _firebaseService: FirebaseService,
     private _router: Router,
     private _routeParams: RouteParams
     ) {
+      this.mixing = false;
   }
 
   ngOnInit() {
@@ -60,11 +62,16 @@ export class DayComponent implements OnInit {
   }
 
   shuffelTeams() {
-    var players = this.team1.concat(this.team2);
-    // put all player names in team 1
-    this.team1 = this.shuffle(players);
-    // pull half of them to team 2
-    this.team2 = this.team1.splice(0, this.team1.length / 2);
+    this.mixing = true;
+    var x = this;
+    setTimeout(function(){
+      var players = x.team1.concat(x.team2);
+      // put all player names in team 1
+      x.team1 = x.shuffle(players);
+      // pull half of them to team 2
+      x.team2 = x.team1.splice(0, x.team1.length / 2);
+      x.mixing = false;
+  }, 2000);
   }
 
 
@@ -84,6 +91,11 @@ export class DayComponent implements OnInit {
   continueMatch() {
     this._router.navigate(['Match']);
   }
+
+  goToStats() {
+    this._router.navigate(['Stat']);
+  }
+
 
   switchTeam(player: string) {
     var i = this.team1.indexOf(player);

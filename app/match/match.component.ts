@@ -14,19 +14,30 @@ import {FirebaseService} from '../data/firebase.service';
 
 export class MatchComponent implements OnInit {
   match: Match;
-  team1Score: number;
-  team2Score: number;
+  teamLScore: number;
+  teamRScore: number;
   currentTeam: string[];
   overlay: boolean;
+  swapped: boolean;
+  get teamL(){
+    if(this.swapped) return this.match.team2;
+    else return this.match.team1
+  }
+
+  get teamR(){
+    if(this.swapped) return this.match.team1;
+    else return this.match.team2
+  }
 
   constructor(
     private _firebaseService: FirebaseService,
     private _router: Router,
     private _routeParams: RouteParams
     ) {
-    this.team1Score = 0;
-    this.team2Score = 0;
+    this.teamLScore = 0;
+    this.teamRScore = 0;
     this.overlay = false;
+    this.swapped = false;
   }
 
   ngOnInit() {
@@ -45,11 +56,8 @@ export class MatchComponent implements OnInit {
   }
 
   showOverlay(team: number) {
-    if (team === 1) {
-      this.currentTeam = this.match.team1;
-    } else {
-      this.currentTeam = this.match.team2;
-    }
+    if (team === 1) this.currentTeam = this.teamL;
+    else this.currentTeam = this.teamR;
     this.overlay = true;
   }
 
@@ -62,21 +70,30 @@ export class MatchComponent implements OnInit {
 
   removeLastGoal(){
     this.match.goals.splice(this.match.goals.length - 1, 1);
-    this.team1Score = 0;
-    this.team2Score = 0;
+    this.teamLScore = 0;
+    this.teamRScore = 0;
     this.match.goals.forEach(player => this.updateScore(player));
     this._firebaseService.updateMatch(this.match);
   }
 
   updateScore(player: string) {
     if (this.match.team1.indexOf(player) > -1) {
-      this.team1Score++;
+      if(!this.swapped) this.teamLScore++;
+      else this.teamRScore++;
     } else {
-      this.team2Score++;
+      if(this.swapped) this.teamLScore++;
+      else this.teamRScore++;
     }
   }
 
   newMatch(){
     this._router.navigate(['Day']);
+  }
+
+  swap(){
+    this.swapped = !this.swapped;
+    this.teamLScore = 0;
+    this.teamRScore = 0;
+    this.match.goals.forEach(player => this.updateScore(player));
   }
 }

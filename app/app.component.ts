@@ -1,7 +1,7 @@
 import { Component } from 'angular2/core';
 import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from 'angular2/router';
 import { FirebaseService } from './data/firebase.service';
-import { StartComponent } from './start/start.component';
+import { StatComponent } from './stat/stat.component';
 import { DayComponent } from './day/day.component';
 import { MatchComponent } from './match/match.component';
 
@@ -20,9 +20,9 @@ import { MatchComponent } from './match/match.component';
 
 @RouteConfig([
   {
-    path: '/start',
-    name: 'Start',
-    component: StartComponent
+    path: '/stat',
+    name: 'Stat',
+    component: StatComponent
   },
   {
     path: '/',
@@ -38,5 +38,5 @@ import { MatchComponent } from './match/match.component';
 ])
 
 export class AppComponent {
-  title = 'Tour of Heroes';
+  title = 'Score board';
 }

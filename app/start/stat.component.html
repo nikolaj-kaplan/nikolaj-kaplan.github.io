@@ -6,3 +6,5 @@
     <td>{{p.wins}}</td><td><span *ngIf="p.matches > 0">{{p.winsPercentage | number:'1.0-0'}}%</span></td>
     <td>{{p.goals}}</td><td><span *ngIf="p.matches > 0">{{p.goalsPrMatch | number:'1.2-2'}}</span></td></tr>
 </table>
+
+<label class="btn btn-default" (click)="back()">Tilbage</label>
