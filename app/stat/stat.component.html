@@ -1,11 +1,46 @@
-x
-<table class="table">
-  <tr><th>Navn</th><th>Kampe</th><th>Sejrer</th><th></th><th>Mål</th><th>Pr. kamp</th></tr>
-  <tr *ngFor="#p of players">
-    <td>{{p.name}}</td>
-    <td>{{p.matches}}</td>
-    <td>{{p.wins}}</td><td><span *ngIf="p.matches > 0">{{p.winsPercentage | number:'1.0-0'}}%</span></td>
-    <td>{{p.goals}}</td><td><span *ngIf="p.matches > 0">{{p.goalsPrMatch | number:'1.2-2'}}</span></td></tr>
-</table>
-
 <label class="btn btn-default" (click)="back()">Tilbage</label>
+<hr/>
+<div *ngIf="dataLoaded">
+  <span style="font-size: 3vw; cursor: pointer;" (click)="showTotal = !showTotal">Total ({{dayStats.length}} kampdage. {{totalStats.matches.length}} kampe)</span>
+  <hr/>
+  <table class="table" [hidden]="!showTotal">
+    <tr>
+      <th>Navn</th>
+      <th>Kampe</th>
+      <th colspan="2">Sejre</th>
+      <th>Mål</th>
+      <th>Pr. kamp</th>
+    </tr>
+    <tr *ngFor="#p of totalStats.getPlayers()">
+      <td [style.color]="p.winsPercentage > 50 ? 'darkgreen' : 'darkred'">{{p.name}}</td>
+      <td>{{p.matches}}</td>
+      <td>{{p.wins}}</td>
+      <td><span *ngIf="p.matches > 0">{{p.winsPercentageString}}%</span></td>
+      <td>{{p.goals}}</td>
+      <td><span *ngIf="p.matches > 0">{{p.goalsPrMatch}}</span></td>
+    </tr>
+  </table>
+  <hr/>
+  <div *ngFor="#stats of dayStats">
+    <span style="font-size: 3vw; cursor:pointer;" (click)="stats.show = !stats.show">{{stats.date}}. ({{stats.matches.length}} kampe)</span>
+    <hr/>
+    <table class="table" [hidden]="!stats.show">
+      <tr>
+        <th>Navn</th>
+        <th>Kampe</th>
+        <th colspan="2">Sejre</th>
+        <th>Mål</th>
+        <th>Pr. kamp</th>
+      </tr>
+      <tr *ngFor="#p of stats.getPlayers()">
+        <td [style.color]="p.winsPercentage > 50 ? 'darkgreen' : 'darkred'">{{p.name}}</td>
+        <td>{{p.matches}}</td>
+        <td>{{p.wins}}</td>
+        <td><span *ngIf="p.matches > 0">{{p.winsPercentageString}}%</span></td>
+        <td>{{p.goals}}</td>
+        <td><span *ngIf="p.matches > 0">{{p.goalsPrMatch}}</span></td>
+      </tr>
+    </table>
+    <hr/>
+  </div>
+</div>
