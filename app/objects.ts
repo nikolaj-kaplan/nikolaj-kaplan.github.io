@@ -94,7 +94,7 @@ export class Stats {
         if (team1AndTeam2.indexOf(p.name) > -1) p.matches++;
       })
     });
-    this.players = Enumerable.From(this.players).Where(p => p.matches > 0).OrderBy(p => - ((p.winsPercentage * 100) + p.goalsPrMatch)).ToArray();
+    this.players = Enumerable.From(this.players).Where(p => p.matches > 0).OrderBy(p => - (p.winsPercentage * 100) - p.goals ).ToArray();
   }
 
   getWinnerNames(match: Match) {

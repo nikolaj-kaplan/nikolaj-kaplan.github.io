@@ -4,6 +4,7 @@ import { FirebaseService } from './data/firebase.service';
 import { StatComponent } from './stat/stat.component';
 import { DayComponent } from './day/day.component';
 import { MatchComponent } from './match/match.component';
+import { LoginComponent } from './login/login.component';
 
 @Component({
   selector: 'my-app',
@@ -34,6 +35,11 @@ import { MatchComponent } from './match/match.component';
     path: '/match',
     name: 'Match',
     component: MatchComponent,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: LoginComponent,
   }
 ])
 

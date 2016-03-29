@@ -1,0 +1,78 @@
+{
+  "FBSMulti" : {
+    "matches" : {
+      "-KBJqnniLz5yynPF8mc6" : {
+        "date" : "Wed Feb 24 2016",
+        "goals" : [ "Frederik", "Mads", "Kristian K.", "Mads", "Kristian K.", "Nikolaj", "Chris", "Michael", "Nikolaj", "Frederik", "Uffe", "Chris", "Kristian K.", "Uffe", "Nikolaj", "Uffe" ],
+        "team1" : [ "Kristian K.", "Mads", "Uffe", "Frederik" ],
+        "team2" : [ "Nikolaj", "Michael", "Chris" ]
+      },
+      "-KBJvOFAAR1rdOv3Nq2w" : {
+        "date" : "Wed Feb 24 2016",
+        "goals" : [ "Chris", "Kristian K.", "Nikolaj", "Michael", "Nikolaj", "Frederik", "Michael", "Chris", "Mads", "Uffe", "Michael", "Mads", "Frederik", "Michael", "Kristian K.", "Nikolaj", "Kristian K.", "Nikolaj" ],
+        "team1" : [ "Chris", "Michael", "Nikolaj" ],
+        "team2" : [ "Kristian K.", "Uffe", "Frederik", "Mads" ]
+      },
+      "-KBK0uA23b_0A3IfpiKB" : {
+        "date" : "Wed Feb 24 2016",
+        "goals" : [ "Kristian K.", "Michael", "Frederik", "Uffe", "Kristian K.", "Frederik", "Frederik", "Michael", "Kristian K.", "Chris", "Kristian K.", "Chris", "Michael", "Frederik", "Mads" ],
+        "team1" : [ "Chris", "Michael", "Nikolaj" ],
+        "team2" : [ "Kristian K.", "Uffe", "Frederik", "Mads" ]
+      },
+      "-KBK5raR6pTKLEjr4Xtf" : {
+        "date" : "Wed Feb 24 2016",
+        "goals" : [ "Kristian K.", "Mads", "Chris", "Kristian K.", "Uffe", "Nikolaj", "Kristian K.", "Kristian K.", "Uffe", "Kristian K.", "Nikolaj", "Kristian K." ],
+        "team1" : [ "Michael", "Chris", "Frederik", "Mads" ],
+        "team2" : [ "Uffe", "Kristian K.", "Nikolaj" ]
+      },
+      "-KBKAASrAPDvPqUWIXf0" : {
+        "date" : "Wed Feb 24 2016",
+        "goals" : [ "Kristian K.", "Mads", "Mads", "Kristian K.", "Nikolaj", "Mads", "Mads", "Nikolaj", "Mads", "Kristian K.", "Kristian K.", "Uffe", "Kristian K.", "Frederik", "Kristian K.", "Michael", "Kristian K." ],
+        "team1" : [ "Michael", "Frederik", "Mads" ],
+        "team2" : [ "Uffe", "Kristian K.", "Nikolaj" ]
+      },
+      "-KD0-LflRXbb-SB0_Mq9" : {
+        "date" : "Wed Mar 16 2016",
+        "goals" : [ "Nikolaj", "Jesper", "Pan", "Mads", "Nikolaj", "Mads", "Nikolaj", "Jesper", "Mads", "Mads", "Nikolaj", "Mattias", "Nikolaj" ],
+        "team1" : [ "Jesper", "Martin B.", "Mattias", "Uffe" ],
+        "team2" : [ "Mads", "Nikolaj", "Pan" ]
+      },
+      "-KD05QOYyOE3gV0EbBRD" : {
+        "date" : "Wed Mar 16 2016",
+        "goals" : [ "Pan", "Martin B.", "Nikolaj", "Mattias", "Nikolaj", "Nikolaj", "Pan", "Mads", "Nikolaj", "Pan", "Mads", "Pan" ],
+        "team1" : [ "Jesper", "Martin B.", "Mattias", "Uffe" ],
+        "team2" : [ "Mads", "Nikolaj", "Pan" ]
+      },
+      "-KD09Mzc2BtpI8rGUX-g" : {
+        "date" : "Wed Mar 16 2016",
+        "goals" : [ "Mads", "Nikolaj", "Pan", "Uffe", "Mads", "Jesper", "Mattias", "Martin B.", "Pan", "Nikolaj", "Mads", "Martin B.", "Mads", "Jesper", "Nikolaj", "Martin B.", "Mattias", "Mattias" ],
+        "team1" : [ "Nikolaj", "Mattias", "Uffe", "Martin B." ],
+        "team2" : [ "Pan", "Mads", "Jesper" ]
+      },
+      "-KD0HE6EUqDAn2gCQjy1" : {
+        "date" : "Wed Mar 16 2016",
+        "goals" : [ "Mads", "Jesper", "Martin B.", "Nikolaj", "Mads", "Mads", "Nikolaj", "Nikolaj", "Jesper", "Mads", "Mads", "Mads" ],
+        "team1" : [ "Nikolaj", "Jesper" ],
+        "team2" : [ "Mads", "Martin B." ]
+      },
+      "-KD9tvToupYZt_2EYymM" : {
+        "date" : "Fri Mar 18 2016",
+        "goals" : [ "Martin L.", "Nikolaj", "Jesper" ],
+        "team1" : [ "Mads", "Frederik", "Martin L.", "Chris", "Michael" ],
+        "team2" : [ "Nikolaj", "Jesper", "Martin B.", "Uffe" ]
+      }
+    },
+    "players" : [ "Nikolaj", "Chris", "Mads", "Martin B.", "Martin L.", "John", "Michael", "Pan", "Frederik", "Uffe", "Kristian K.", "Jesper", "Mattias" ]
+  },
+  "Test" : {
+    "matches" : {
+      "-KB-IuQTsH30Shysoqy_" : {
+        "date" : "Sat Feb 20 2016",
+        "goals" : [ "T Frederik" ],
+        "team1" : [ "T Nikolaj", "T Chris", "T Martin B.", "T Frederik" ],
+        "team2" : [ "T Michael", "T Uffe", "T Mads", "T John" ]
+      }
+    },
+    "players" : [ "T Nikolaj", "T Chris", "T Mads", "T Martin B.", "T Martin L", "T John", "T Michael", "T Pan", "T Frederik", "T Uffe", "T Bastian" ]
+  }
+}
