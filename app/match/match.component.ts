@@ -17,7 +17,6 @@ export class MatchComponent implements OnInit {
     teamLScore: number;
     teamRScore: number;
     currentTeam: string[];
-    overlay: boolean;
     swapped: boolean;
 
     get teamL() {
@@ -35,9 +34,6 @@ export class MatchComponent implements OnInit {
         private _router: Router,
         private _routeParams: RouteParams
     ) {
-        this.teamLScore = 0;
-        this.teamRScore = 0;
-        this.overlay = false;
         this.swapped = false;
     }
 
@@ -48,40 +44,43 @@ export class MatchComponent implements OnInit {
         }
 
         var promise = this._firebaseService.getCurrentMatch();
-        promise.then(match => this.match = match)
-            .then(() => this.countGoals());
+        var theClass = this;
+        promise.then(match => {
+            theClass.match = match;
+            theClass.match.goals = theClass.match.goals ? theClass.match.goals : []; 
+            theClass.countGoals();
+            theClass._firebaseService.addCallback(matchRef => {
+                theClass.match = matchRef.val();
+                theClass.match.goals = theClass.match.goals ? theClass.match.goals : []; 
+                theClass.countGoals();
+            })
+        });
 
-        //this._firebaseService.addCallback();
         return promise;
+
     }
 
     countGoals() {
+        this.teamLScore = 0;
+        this.teamRScore = 0;
         this.match.goals.forEach(player => this.updateScore(player));
     }
 
     getScore(player: string): number {
+        if(!this.match.goals){
+            
+        }
         return this.match.goals.filter(p => p === player).length;
     }
 
-    showOverlay(team: number) {
-        if (team === 1) this.currentTeam = this.teamL;
-        else this.currentTeam = this.teamR;
-        this.overlay = true;
-    }
-
     addGoal(player) {
-        this.overlay = false;
-        this.updateScore(player);
         this.match.goals.push(player);
-        this._firebaseService.updateMatch(this.match);
+        this._firebaseService.updateMatchGoals(this.match);
     }
 
     removeLastGoal() {
         this.match.goals.splice(this.match.goals.length - 1, 1);
-        this.teamLScore = 0;
-        this.teamRScore = 0;
-        this.match.goals.forEach(player => this.updateScore(player));
-        this._firebaseService.updateMatch(this.match);
+        this._firebaseService.updateMatchGoals(this.match);
     }
 
     updateScore(player: string) {
@@ -100,8 +99,6 @@ export class MatchComponent implements OnInit {
 
     swap() {
         this.swapped = !this.swapped;
-        this.teamLScore = 0;
-        this.teamRScore = 0;
-        this.match.goals.forEach(player => this.updateScore(player));
+        this.countGoals();
     }
 }

@@ -8,12 +8,10 @@ export class FirebaseService {
     club: string;
 
     currentDay: Day;
-    currentMatch: Match;
     currentMatchKey: string;
 
-    allMatches: Match[]
-
     constructor() {
+      this.club = "FBSMulti"
     }
 
     selectClub(mail: string) {
@@ -69,7 +67,6 @@ export class FirebaseService {
     }
 
     addMatch(match: Match) {
-        this.currentMatch = match;
         var x = this.getMatchRootRef().push(match);
         this.currentMatchKey = x.key(); // save key to add goals later
         this.currentTeams = {
@@ -77,10 +74,14 @@ export class FirebaseService {
             team2: match.team2,
         };
     }
+    
+    addPlayer(name: string,mail: string){
+        this.getPlayersRef().push({mail:mail, name:name});
+    }
 
-    updateMatch(match: Match) {
-        var matchRef = this.getMatchRootRef().child(this.currentMatchKey);
-        matchRef.update(match);
+    updateMatchGoals(match: Match) {
+        var goalsRef = this.getMatchRootRef().child(this.currentMatchKey).child("goals");
+        goalsRef.set(match.goals);
     }
 
     addCallback(callback: any) {

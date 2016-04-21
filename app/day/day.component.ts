@@ -18,6 +18,7 @@ export class DayComponent implements OnInit {
     allPlayers: string[];
     firebaseService: FirebaseService;
     mixing: boolean;
+    creatingNewPlayer: boolean;
 
     constructor(
         private _firebaseService: FirebaseService,
@@ -41,7 +42,7 @@ export class DayComponent implements OnInit {
         this._firebaseService.getAllPlayers().then(players => {
             this.allPlayers = players;
             this._firebaseService.getCurrentMatch().then(currentMatch => {
-                if (currentMatch.date === new Date().toDateString()) {
+                //if (currentMatch.date === new Date().toDateString()) {
                     //we already have a match today. lets filter the players based on this match
                     var validPlayers = currentMatch.team1.concat(currentMatch.team2);
                     // fill up inactive players with the players that are NOT in the current match
@@ -50,11 +51,11 @@ export class DayComponent implements OnInit {
                     // set team 1 and 2 to be the same as the last match
                     this.team1 = currentMatch.team1.slice();
                     this.team2 = currentMatch.team2.slice();
-                } else {
-                    this.team1 = this.allPlayers.slice();
-                    this.team2 = []
-                    this.shuffelTeams();
-                }
+//                } else {
+//                    this.team1 = this.allPlayers.slice();
+//                    this.team2 = []
+//                    this.shuffelTeams();
+//                }
             });
         });
     }
@@ -121,6 +122,13 @@ export class DayComponent implements OnInit {
     addPlayer(player: string) {
         this.team1.push(player);
         this.removeElementFromArray(player, this.inactivePlayers);
+    }
+    
+    createPlayer(name: string, mail: string){
+        this._firebaseService.addPlayer(name,mail);
+        this.allPlayers.push(name);
+        this.team2.push(name);      
+        this.creatingNewPlayer = false; 
     }
 
     removeElementFromArray<T>(element: T, array: T[]) {

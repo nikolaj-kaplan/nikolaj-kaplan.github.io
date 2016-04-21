@@ -1,46 +1,63 @@
-<div *ngIf="mixing" style="font-size:24vw;">
-  Blander!
+<div [hidden]="!creatingNewPlayer">
+    <form (submit)="createPlayer(name, email)" class="form-inline">
+        <div class="form-group">
+            <input type="text" class="form-control" id="name" placeholder="Navn" [(ngModel)]="name">
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" id="email" placeholder="Email" [(ngModel)]="email">
+        </div>
+        <button class="btn btn-default" type="submit">OK</button>
+    </form>
 </div>
-<div *ngIf="!mixing">
-  <div id="left" class="c1" style="float: left; width: 50%; height: 100%;">
-    <div class="card">
-      <div class="card-block">
-        <h4 class="card-title">Hold 1</h4>
-      </div>
-      <span *ngIf="!team1">Loading...</span>
-      <ul *ngIf="team1" class="list-group list-group-flush">
-        <li class="list-group-item" (click)="switchTeam(player)" *ngFor="#player of team1">
-          <span>{{player}}</span><span style="float: right; font-size:3.5vw" class="glyphicon glyphicon-remove" (click)="removePlayer(player)"></span></li>
-      </ul>
+<div [hidden]="creatingNewPlayer">
+    <div *ngIf="mixing" style="font-size:24vw;">
+        Blander!
     </div>
-    <p>Klik på et navn for at rykke personen over på det andet hold.</p>
-  </div>
-  <div id="right" class="c2" style="float: right; width: 50%; height: 100%;">
-    <div class="card-block">
-      <h4 class="card-title">Hold 2</h4>
+
+    <div *ngIf="!mixing">
+        <div id="left" class="c1" style="float: left; width: 50%; height: 100%;">
+            <div class="card">
+                <div class="card-block">
+                    <h4 class="card-title">Hold 1</h4>
+                </div>
+                <span *ngIf="!team1">Loading...</span>
+                <ul *ngIf="team1" class="list-group list-group-flush">
+                    <li class="list-group-item" (click)="switchTeam(player)" *ngFor="#player of team1">
+                        <span>{{player}}</span><span style="float: right; font-size:3.5vw" class="glyphicon glyphicon-remove"
+                        (click)="removePlayer(player)"></span></li>
+                </ul>
+            </div>
+            <p>Klik på et navn for at rykke personen over på det andet hold.</p>
+        </div>
+        <div id="right" class="c2" style="float: right; width: 50%; height: 100%;">
+            <div class="card-block">
+                <h4 class="card-title">Hold 2</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" (click)="switchTeam(player)" *ngFor="#player of team2">
+                    <span>{{player}}</span><span style="float: right; font-size:3.5vw" class="glyphicon glyphicon-remove"
+                    (click)="removePlayer(player)"></span></li>
+            </ul>
+        </div>
     </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item" (click)="switchTeam(player)" *ngFor="#player of team2">
-        <span>{{player}}</span><span style="float: right; font-size:3.5vw" class="glyphicon glyphicon-remove" (click)="removePlayer(player)"></span></li>
-    </ul>
-  </div>
-</div>
-<div style="clear:both;">
-  <label class="btn btn-default" (click)="shuffelTeams(true)">Bland holdene</label>
-  <label class="btn btn-default" (click)="startMatch()">Start ny kamp</label>
-  <label class="btn btn-default" (click)="continueMatch()">Fortsæt kamp fra før</label>
-  <label class="btn btn-default" (click)="goToStats()">Stats</label>
-</div>
-<div style="position: fixed; bottom: 0; right: 0; padding: 10px; font-size: 2.5vw;">
-  <h4>ikke med</h4>
-  <ul class="no-bullets">
-    <li (click)="addPlayer(player)" *ngFor="#player of inactivePlayers"><span>{{player}}</span></li>
-  </ul>
-</div>
-<div style="position: fixed; bottom: 0; left: 0; padding: 10px; font-size: 2.5vw;">
-  <h4>Klub</h4>
-  <select (change)="switchClub($event)">
-    <option value="Test">Test</option>
-    <option value="FBSMulti" selected="selected">FBS multi</option>
-  </select>
+    <div style="clear:both;">
+        <label class="btn btn-default" (click)="shuffelTeams(true)">Bland holdene</label>
+        <label class="btn btn-default" (click)="startMatch()">Start ny kamp</label>
+        <label class="btn btn-default" (click)="continueMatch()">Fortsæt kamp fra før</label>
+        <label class="btn btn-default" (click)="goToStats()">Stats</label>
+        <label class="btn btn-default" (click)="creatingNewPlayer = true">Tilføj spiller</label>
+    </div>
+    <div style="position: fixed; bottom: 0; right: 0; padding: 10px; font-size: 2.5vw;">
+        <h4>ikke med</h4>
+        <ul class="no-bullets">
+            <li (click)="addPlayer(player)" *ngFor="#player of inactivePlayers"><span>{{player}}</span></li>
+        </ul>
+    </div>
+    <div style="display:none; position: fixed; bottom: 0; left: 0; padding: 10px; font-size: 2.5vw;">
+        <h4>Klub</h4>
+        <select (change)="switchClub($event)">
+            <option value="Test">Test</option>
+            <option value="FBSMulti" selected="selected">FBS multi</option>
+        </select>
+    </div>
 </div>

@@ -12,7 +12,7 @@
       <th>Pr. kamp</th>
     </tr>
     <tr *ngFor="#p of totalStats.getPlayers()">
-      <td [style.color]="p.winsPercentage > 50 ? 'darkgreen' : 'darkred'">{{p.name}}</td>
+      <td>{{p.name}}</td>
       <td>{{p.matches}}</td>
       <td>{{p.wins}}</td>
       <td><span *ngIf="p.matches > 0">{{p.winsPercentageString}}%</span></td>
@@ -33,7 +33,7 @@
         <th>Pr. kamp</th>
       </tr>
       <tr *ngFor="#p of stats.getPlayers()">
-        <td [style.color]="p.winsPercentage > 50 ? 'darkgreen' : 'darkred'">{{p.name}}</td>
+        <td>{{p.name}}</td>
         <td>{{p.matches}}</td>
         <td>{{p.wins}}</td>
         <td><span *ngIf="p.matches > 0">{{p.winsPercentageString}}%</span></td>
