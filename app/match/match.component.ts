@@ -20,11 +20,13 @@ export class MatchComponent implements OnInit {
     swapped: boolean;
 
     get teamL() {
+        if (!this.match) return [];
         if (this.swapped) return this.match.team2;
         else return this.match.team1
     }
 
     get teamR() {
+        if (!this.match) return [];
         if (this.swapped) return this.match.team1;
         else return this.match.team2
     }
@@ -44,32 +46,32 @@ export class MatchComponent implements OnInit {
         }
 
         var promise = this._firebaseService.getCurrentMatch();
-        var theClass = this;
+        var this1 = this;
         promise.then(match => {
-            theClass.match = match;
-            theClass.match.goals = theClass.match.goals ? theClass.match.goals : []; 
-            theClass.countGoals();
-            theClass._firebaseService.addCallback(matchRef => {
-                theClass.match = matchRef.val();
-                theClass.match.goals = theClass.match.goals ? theClass.match.goals : []; 
-                theClass.countGoals();
+            this1.match = match;
+            this1.countGoals();
+            this1._firebaseService.addCallback(this1.match, matchRef => {
+                var callbackMatch = matchRef.val();
+                if (callbackMatch) {
+                    match.eat(callbackMatch);
+                    this1.countGoals();
+                }
             })
         });
 
         return promise;
-
     }
 
     countGoals() {
         this.teamLScore = 0;
         this.teamRScore = 0;
-        this.match.goals.forEach(player => this.updateScore(player));
+        if (this.match) {
+            this.match.goals.forEach(player => this.updateScore(player));
+        }
     }
 
     getScore(player: string): number {
-        if(!this.match.goals){
-            
-        }
+        if (!this.match) return 0;
         return this.match.goals.filter(p => p === player).length;
     }
 
@@ -100,5 +102,13 @@ export class MatchComponent implements OnInit {
     swap() {
         this.swapped = !this.swapped;
         this.countGoals();
+    }
+
+    deleteGame() {
+        if (confirm("Vil du slette denne kamp?")) {
+            if (confirm("Er du helt sikker??")) {
+                this._firebaseService.deleteCurrentMatch().then(() => this._router.navigate(['Day']));
+            }
+        }
     }
 }

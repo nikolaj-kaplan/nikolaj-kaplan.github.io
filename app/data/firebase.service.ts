@@ -3,15 +3,11 @@ import { Day, Match } from '../objects';
 
 @Injectable()
 export class FirebaseService {
-    currentTeams: any;
     baserUrl = "https://multihockey.firebaseio.com/";
     club: string;
 
-    currentDay: Day;
-    currentMatchKey: string;
-
     constructor() {
-      this.club = "FBSMulti"
+        //this.club = "Test"
     }
 
     selectClub(mail: string) {
@@ -35,8 +31,6 @@ export class FirebaseService {
         return new Firebase(this.baserUrl + this.club + "/players");
     }
 
-    getDaysRef() { };
-
     getMatchRootRef() {
         return new Firebase(this.baserUrl + this.club + "/matches");
     };
@@ -59,7 +53,9 @@ export class FirebaseService {
             this.getMatchRootRef().once("value", result => {
                 var matches: Match[] = [];
                 result.forEach(x => {
-                    matches.push(x.val())
+                    var match: Match = new Match()
+                    match.eat(x.val());
+                    matches.push(match);
                 })
                 resolve(matches);
             })
@@ -67,49 +63,72 @@ export class FirebaseService {
     }
 
     addMatch(match: Match) {
-        var x = this.getMatchRootRef().push(match);
-        this.currentMatchKey = x.key(); // save key to add goals later
-        this.currentTeams = {
-            team1: match.team1,
-            team2: match.team2,
-        };
+        var this1 = this;
+        var promise = new Promise(resolve => {
+            var x = this1.getMatchRootRef().push(match, () => {
+                // save key to add goals later
+                match.key = x.key();
+                x.child("key").set(x.key(), () => {
+                    resolve();
+                });
+            });
+        });
+        return promise;
     }
-    
-    addPlayer(name: string,mail: string){
-        this.getPlayersRef().push({mail:mail, name:name});
+
+    addPlayer(name: string, mail: string) {
+        if(mail === undefined){
+            mail = "";
+        }
+        this.getPlayersRef().push({ mail: mail, name: name });
     }
 
     updateMatchGoals(match: Match) {
-        var goalsRef = this.getMatchRootRef().child(this.currentMatchKey).child("goals");
-        goalsRef.set(match.goals);
+        var matchRef = this.getMatchRootRef().child(match.key);
+        matchRef.child("goals").set(match.goals);
     }
 
-    addCallback(callback: any) {
-        var matchRef = this.getMatchRootRef().child(this.currentMatchKey);
+    addCallback(match: Match, callback: any) {
+        var matchRef = this.getMatchRootRef().child(match.key);
         matchRef.on("value", callback);
     }
 
     getCurrentMatch() {
+        var this1 = this;
         return new Promise<Match>(resolve =>
-            this.getMatchRootRef().limitToLast(1).once("value", response => {
-                var match: Match;
+            this1.getMatchRootRef().limitToLast(1).once("value", response => {
+                var match = new Match();
+                var firebaseHadAMatch = false;
                 response.forEach(x => {
-                    this.currentMatchKey = x.key();
-                    match = x.val();
+                    match.eat(x.val());
+                    firebaseHadAMatch = true;
                 });
-                if (!match) {
-                    var match: Match = {
-                        date: new Date().toDateString(),
-                        team1: [],
-                        team2: [],
-                        goals: []
-                    };
+                if (firebaseHadAMatch) {
+                    resolve(match);
+                } else {
+                    this1.addMatch(match).then(() => resolve(match));
                 }
-                if (!match.goals) {
-                    match.goals = []
-                }
-                resolve(match);
             })
         );
+    }
+
+    deleteCurrentMatch() {
+        var this1 = this;
+        return new Promise<any>(resolve => {
+            this1.getCurrentMatch().then(match => {
+                this1.getMatchRootRef().child(match.key).remove(() => {
+                    resolve();
+                });
+            });
+        });
+    }
+
+    updateCurrentMatch(updatedMatch: Match) {
+        var this1 = this;
+        return new Promise<any>(resolve => {
+            this1.getMatchRootRef().child(updatedMatch.key).update(updatedMatch, () => {
+                resolve();
+            });
+        });
     }
 }

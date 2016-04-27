@@ -16,7 +16,6 @@ export class DayComponent implements OnInit {
     team2: string[];
     inactivePlayers: string[] = [];
     allPlayers: string[];
-    firebaseService: FirebaseService;
     mixing: boolean;
     creatingNewPlayer: boolean;
 
@@ -33,67 +32,79 @@ export class DayComponent implements OnInit {
             this._router.navigate(["Login"]);
             return;
         }
-        this.firebaseService = this._firebaseService;
+        this._firebaseService;
         this.internalInit();
     }
 
     internalInit() {
+        var this1 = this;
         // setup the teams. Either based on last match (if it is today) or random
         this._firebaseService.getAllPlayers().then(players => {
-            this.allPlayers = players;
-            this._firebaseService.getCurrentMatch().then(currentMatch => {
+            this1.allPlayers = players;
+            this1._firebaseService.getCurrentMatch().then(currentMatch => {
                 //if (currentMatch.date === new Date().toDateString()) {
-                    //we already have a match today. lets filter the players based on this match
-                    var validPlayers = currentMatch.team1.concat(currentMatch.team2);
-                    // fill up inactive players with the players that are NOT in the current match
-                    this.inactivePlayers = this.allPlayers.filter(player => validPlayers.indexOf(player) === -1);
+                //we already have a match today. lets filter the players based on this match
+                var validPlayers = currentMatch.team1.concat(currentMatch.team2);
+                // fill up inactive players with the players that are NOT in the current match
+                this1.inactivePlayers = this1.allPlayers.filter(player => validPlayers.indexOf(player) === -1);
 
-                    // set team 1 and 2 to be the same as the last match
-                    this.team1 = currentMatch.team1.slice();
-                    this.team2 = currentMatch.team2.slice();
-//                } else {
-//                    this.team1 = this.allPlayers.slice();
-//                    this.team2 = []
-//                    this.shuffelTeams();
-//                }
+                // set team 1 and 2 to be the same as the last match
+                this1.team1 = currentMatch.team1.slice();
+                this1.team2 = currentMatch.team2.slice();
+                //                } else {
+                //                    this.team1 = this.allPlayers.slice();
+                //                    this.team2 = []
+                //                    this.shuffelTeams();
+                //                }
             });
         });
     }
 
     switchClub($event) {
-        this.firebaseService.club = $event.target.value;
+        this._firebaseService.club = $event.target.value;
         this.internalInit();
     }
 
     shuffelTeams() {
         this.mixing = true;
-        var x = this;
+        var this1 = this;
         setTimeout(function() {
-            var players = x.team1.concat(x.team2);
+            var players = this1.team1.concat(this1.team2);
             // put all player names in team 1
-            x.team1 = x.shuffle(players);
+            this1.team1 = this1.shuffle(players);
             // pull half of them to team 2
-            x.team2 = x.team1.splice(0, x.team1.length / 2);
-            x.mixing = false;
+            this1.team2 = this1.team1.splice(0, this1.team1.length / 2);
+            this1.mixing = false;
         }, 2000);
     }
 
 
     startMatch() {
-        var match: Match =
-            {
-                date: new Date().toDateString(),
-                team1: this.team1,
-                team2: this.team2,
-                goals: []
-            };
-
-        this._firebaseService.addMatch(match);
-        this._router.navigate(['Match']);
+        var this1 = this;
+        this._firebaseService.getCurrentMatch().then(currentMatch => {
+            // only create a new match if we do not have a match with no goals at the end of the list already.
+            if (currentMatch.goals.length === 0) {
+                currentMatch.date = new Date().toDateString();
+                currentMatch.team1 = this1.team1;
+                currentMatch.team2 = this1.team2;
+                this1._firebaseService.updateCurrentMatch(currentMatch).then(() => this1._router.navigate(['Match']));
+            } else {
+                var match = new Match();
+                match.team1 =  this1.team1;
+                match.team2 =  this1.team2;
+                this1._firebaseService.addMatch(match).then(() => this1._router.navigate(['Match']));
+            }
+        });
     }
 
     continueMatch() {
-        this._router.navigate(['Match']);
+        var this1 = this;
+        //lets check if we have same teams or if we should update them
+        this._firebaseService.getCurrentMatch().then(currentMatch => {
+            currentMatch.team1 = this1.team1;
+            currentMatch.team2 = this1.team2;
+            this1._firebaseService.updateCurrentMatch(currentMatch).then(() => this1._router.navigate(['Match']));
+        });
     }
 
     goToStats() {
@@ -123,12 +134,12 @@ export class DayComponent implements OnInit {
         this.team1.push(player);
         this.removeElementFromArray(player, this.inactivePlayers);
     }
-    
-    createPlayer(name: string, mail: string){
-        this._firebaseService.addPlayer(name,mail);
+
+    createPlayer(name: string, mail: string) {
+        this._firebaseService.addPlayer(name, mail);
         this.allPlayers.push(name);
-        this.team2.push(name);      
-        this.creatingNewPlayer = false; 
+        this.team2.push(name);
+        this.creatingNewPlayer = false;
     }
 
     removeElementFromArray<T>(element: T, array: T[]) {

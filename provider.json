@@ -1,0 +1,38 @@
+{
+    "provider": "facebook",
+    "uid": "facebook:10153988732357829",
+    "facebook": {
+        "id": "10153988732357829",
+        "accessToken": "EAAJbXZAWfZC9QBAMB7hFKCVo2ZArTNbNlbRtNgscdZBX4f4VXqw3t97VkIVDr5slDOCjAQLewTXEgAmpj8ZBvHd42aAasjj2AWSWyzZCta4xvAHeCBlL7wyTkU6cDJzn2v0NxYpwOt9BLyjZBB6wMY2X7rgB06hCj0ZD",
+        "displayName": "Nikolaj Hjelm Kaplan",
+        "email": "nikolaj.kaplan@gmail.com",
+        "cachedUserProfile": {
+            "id": "10153988732357829",
+            "name": "Nikolaj Hjelm Kaplan",
+            "last_name": "Kaplan",
+            "first_name": "Nikolaj",
+            "middle_name": "Hjelm",
+            "gender": "male",
+            "link": "https://www.facebook.com/app_scoped_user_id/10153988732357829/",
+            "email": "nikolaj.kaplan@gmail.com",
+            "picture": {
+                "data": {
+                    "is_silhouette": false,
+                    "url": "https://scontent.xx.fbcdn.net/hprofile-frc1/v/t1.0-1/s100x100/1966839_10152201994622829_1189543431_n.jpg?oh=72c0d7ec72e6195249a7eb277c0f544e&oe=57B26288"
+                }
+            },
+            "age_range": {
+                "min": 21
+            },
+            "locale": "en_US",
+            "timezone": 2
+        },
+        "profileImageURL": "https://scontent.xx.fbcdn.net/hprofile-frc1/v/t1.0-1/s100x100/1966839_10152201994622829_1189543431_n.jpg?oh=72c0d7ec72e6195249a7eb277c0f544e&oe=57B26288"
+    },
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ2IjowLCJkIjp7InVpZCI6ImZhY2Vib29rOjEwMTUzOTg4NzMyMzU3ODI5IiwicHJvdmlkZXIiOiJmYWNlYm9vayJ9LCJpYXQiOjE0NjE0MzMzNjR9.KzVleBP6bGifdKNc3JQ-1lEaDiSrsQza4zFKvT3BwMU",
+    "auth": {
+        "uid": "facebook:10153988732357829",
+        "provider": "facebook"
+    },
+    "expires": 1461519764
+}

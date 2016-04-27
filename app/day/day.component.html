@@ -1,4 +1,4 @@
-<div [hidden]="!creatingNewPlayer">
+<div [style.display]="creatingNewPlayer?'inherit':'none'">
     <form (submit)="createPlayer(name, email)" class="form-inline">
         <div class="form-group">
             <input type="text" class="form-control" id="name" placeholder="Navn" [(ngModel)]="name">
@@ -7,13 +7,13 @@
             <input type="email" class="form-control" id="email" placeholder="Email" [(ngModel)]="email">
         </div>
         <button class="btn btn-default" type="submit">OK</button>
+        <button class="btn btn-default" (click)="creatingNewPlayer = false">Annuler</button>
     </form>
 </div>
-<div [hidden]="creatingNewPlayer">
+<div [style.display]="!creatingNewPlayer?'inherit':'none'">
     <div *ngIf="mixing" style="font-size:24vw;">
         Blander!
     </div>
-
     <div *ngIf="!mixing">
         <div id="left" class="c1" style="float: left; width: 50%; height: 100%;">
             <div class="card">

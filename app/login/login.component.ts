@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
 
     // Create a callback which logs the current auth state
     authDataCallback(authData, firebaseService: FirebaseService) {
+        var this1 = this;
         if (authData) {
             console.log("User " + authData.uid + " is logged in with " + authData.provider);
             localStorage.setItem("user", authData.facebook.email);
@@ -38,7 +39,7 @@ export class LoginComponent implements OnInit {
                 if (!success) {
                     alert("Vi kender dig ikke");
                 } else {
-                    this._router.navigate(["Day"]);
+                    this1._router.navigate(["Day"]);
                 }
             });
         }
