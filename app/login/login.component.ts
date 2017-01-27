@@ -46,8 +46,14 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
+        debugger;
+        //skip login:
+        localStorage.setItem("user", "nikolaj.kaplan@gmail.com");
+        this._router.navigate(["Day"]);
+/*
+
         this.ref.authWithOAuthPopup("facebook", this.authDataCallback, {
             scope: "email"
-        });
+        });*/
     }
 }

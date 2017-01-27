@@ -18,12 +18,12 @@
         <div id="left" class="c1" style="float: left; width: 50%; height: 100%;">
             <div class="card">
                 <div class="card-block">
-                    <h4 class="card-title">Hold 1</h4>
+                    <h4 class="card-title">Hold 1 - score: {{getTeamScore(team1).toFixed(0)}}</h4> 
                 </div>
                 <span *ngIf="!team1">Loading...</span>
                 <ul *ngIf="team1" class="list-group list-group-flush">
                     <li class="list-group-item" (click)="switchTeam(player)" *ngFor="#player of team1">
-                        <span>{{player}}</span><span style="float: right; font-size:3.5vw" class="glyphicon glyphicon-remove"
+                        <span>{{player}} </span><span>({{getPlayerScore(player).toFixed(0)}})</span><span style="float: right; font-size:3.5vw" class="glyphicon glyphicon-remove"
                         (click)="removePlayer(player)"></span></li>
                 </ul>
             </div>
@@ -31,17 +31,18 @@
         </div>
         <div id="right" class="c2" style="float: right; width: 50%; height: 100%;">
             <div class="card-block">
-                <h4 class="card-title">Hold 2</h4>
+                <h4 class="card-title">Hold 2 - score: {{getTeamScore(team2).toFixed(0)}}</h4>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item" (click)="switchTeam(player)" *ngFor="#player of team2">
-                    <span>{{player}}</span><span style="float: right; font-size:3.5vw" class="glyphicon glyphicon-remove"
+                    <span>{{player}}</span><span>({{getPlayerScore(player).toFixed(0)}})</span><span style="float: right; font-size:3.5vw" class="glyphicon glyphicon-remove"
                     (click)="removePlayer(player)"></span></li>
             </ul>
         </div>
     </div>
     <div style="clear:both;">
-        <label class="btn btn-default" (click)="shuffelTeams(true)">Bland holdene</label>
+        <label class="btn btn-default" (click)="shuffelTeams()">Bland holdene</label>
+        <label class="btn btn-default" (click)="shuffelTeamsFair()">Bland holdene fair</label>
         <label class="btn btn-default" (click)="startMatch()">Start ny kamp</label>
         <label class="btn btn-default" (click)="continueMatch()">Fortsæt kamp fra før</label>
         <label class="btn btn-default" (click)="goToStats()">Stats</label>

@@ -7,7 +7,7 @@ export class FirebaseService {
     club: string;
 
     constructor() {
-        //this.club = "Test"
+        this.club = "FBSMulti"
     }
 
     selectClub(mail: string) {

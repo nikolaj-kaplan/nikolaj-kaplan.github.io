@@ -1,7 +1,7 @@
 import { Component, OnInit, } from 'angular2/core';
 import { Router } from 'angular2/router';
 import {RouteParams} from 'angular2/router';
-import { Match } from '../objects';
+import { Match ,Stats} from '../objects';
 import {FirebaseService} from '../data/firebase.service';
 
 @Component({
@@ -18,6 +18,7 @@ export class DayComponent implements OnInit {
     allPlayers: string[];
     mixing: boolean;
     creatingNewPlayer: boolean;
+    stats: Stats;
 
     constructor(
         private _firebaseService: FirebaseService,
@@ -58,6 +59,7 @@ export class DayComponent implements OnInit {
                 //                }
             });
         });
+        this.updateStats();
     }
 
     switchClub($event) {
@@ -74,6 +76,32 @@ export class DayComponent implements OnInit {
             this1.team1 = this1.shuffle(players);
             // pull half of them to team 2
             this1.team2 = this1.team1.splice(0, this1.team1.length / 2);
+            this1.mixing = false;
+        }, 2000);
+    }
+
+    shuffelTeamsFair() {
+        this.mixing = true;
+        var this1 = this;
+        setTimeout(function() {
+            var dif;
+            var bestTeams;
+
+            for(var i = 0; i < 50; i++){
+                var players = this1.team1.concat(this1.team2);
+                // put all player names in team 1
+                var team1 = this1.shuffle(players);
+                // pull half of them to team 2
+                var team2 = team1.splice(0, team1.length / 2);
+                dif = this1.getTeamScore(team1) - this1.getTeamScore(team2);
+                dif = Math.abs(dif);
+                if(!bestTeams || dif < bestTeams.dif) {
+                    bestTeams = {team1,team2,dif};
+                }
+            }
+
+            this1.team1 = bestTeams.team1;
+            this1.team2 = bestTeams.team2;
             this1.mixing = false;
         }, 2000);
     }
@@ -153,4 +181,28 @@ export class DayComponent implements OnInit {
         for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
         return o;
     }
+
+    getPlayerScore( playerName: string){
+        if(!this.stats) return 0;
+        var player = this.stats.players.filter(p => p.name == playerName)[0];
+        if(!player) return 50;
+        return player.winsPercentage;
+    }
+
+    getTeamScore(team: string[]){
+
+        if(!team || team.length === 0) return 0;
+        var sum = 0;
+        team.forEach(p => sum += this.getPlayerScore(p));
+        return sum / team.length;
+    }
+
+    updateStats(){
+        this._firebaseService.getAllMatches().then(matches => {
+            this._firebaseService.getAllPlayers().then(players => {
+                this.stats = new Stats(matches, players);
+            });
+        });
+    }
+
 }

@@ -20,6 +20,7 @@ export class StatComponent implements OnInit {
     dayStats: Stats[];
     totalStats: Stats;
     dataLoaded: boolean = false;
+    
 
     constructor(
         private _firebaseService: FirebaseService,
