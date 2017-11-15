@@ -27,7 +27,6 @@
                         (click)="removePlayer(player)"></span></li>
                 </ul>
             </div>
-            <p>Klik på et navn for at rykke personen over på det andet hold.</p>
         </div>
         <div id="right" class="c2" style="float: right; width: 50%; height: 100%;">
             <div class="card-block">
@@ -41,6 +40,8 @@
         </div>
     </div>
     <div style="clear:both;">
+            <p style="font-size:1.8vw;">Klik på et navn for at rykke personen over på det andet hold.</p>
+            <hr/>
         <label class="btn btn-default" (click)="shuffelTeams()">Bland holdene</label>
         <label class="btn btn-default" (click)="shuffelTeamsFair()">Bland holdene fair</label>
         <label class="btn btn-default" (click)="startMatch()">Start ny kamp</label>
@@ -48,10 +49,10 @@
         <label class="btn btn-default" (click)="goToStats()">Stats</label>
         <label class="btn btn-default" (click)="creatingNewPlayer = true">Tilføj spiller</label>
     </div>
-    <div style="position: fixed; bottom: 0; right: 0; padding: 10px; font-size: 2.5vw;">
+    <div style="position: fixed; bottom: 0; left: 0; padding: 10px; font-size: 2.5vw; line-height:2;">
         <h4>ikke med</h4>
-        <ul class="no-bullets">
-            <li (click)="addPlayer(player)" *ngFor="#player of inactivePlayers"><span>{{player}}</span></li>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" style="display:inline;"(click)="addPlayer(player)" *ngFor="#player of inactivePlayers"><span>{{player.replace(" ","&nbsp;")}} </span></li>
         </ul>
     </div>
     <div style="display:none; position: fixed; bottom: 0; left: 0; padding: 10px; font-size: 2.5vw;">
