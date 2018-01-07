@@ -1,5 +1,6 @@
 <label class="btn btn-default" (click)="back()">Tilbage</label>
 <hr/>
+antal uger: <input placeholder="antal uger" type="text" (blur)="updateWeeks()" [(ngModel)]="weeks"/>
 <div *ngIf="dataLoaded">
   <span style="font-size: 3vw; cursor: pointer;" (click)="showTotal = !showTotal">Total ({{dayStats.length}} kampdage. {{totalStats.matches.length}} kampe)</span>
   <hr/>

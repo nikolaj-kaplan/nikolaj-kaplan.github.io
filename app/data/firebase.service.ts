@@ -5,6 +5,8 @@ import { Day, Match } from '../objects';
 export class FirebaseService {
     baserUrl = "https://multihockey.firebaseio.com/";
     club: string;
+    weeks: number = 10;
+
 
     constructor() {
         this.club = "FBSMulti"
@@ -57,6 +59,8 @@ export class FirebaseService {
                     match.eat(x.val());
                     matches.push(match);
                 })
+                var date = new Date(new Date().getTime() - 1000*60*60*24*7*this.weeks);
+                matches = matches.filter(m => new Date(m.date) > date);
                 resolve(matches);
             })
         });

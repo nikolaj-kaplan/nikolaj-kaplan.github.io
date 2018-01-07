@@ -20,7 +20,7 @@ export class StatComponent implements OnInit {
     dayStats: Stats[];
     totalStats: Stats;
     dataLoaded: boolean = false;
-    
+    weeks: number =10;
 
     constructor(
         private _firebaseService: FirebaseService,
@@ -34,13 +34,8 @@ export class StatComponent implements OnInit {
             this._router.navigate(["Login"]);
             return;
         }
-        this._firebaseService.getAllMatches().then(matches => {
-            this._firebaseService.getAllPlayers().then(players => {
-                this.totalStats = new Stats(matches, players);
-                this.dayStats = Enumerable.From(matches).GroupBy(match => match.date).Select(group => new Stats(group.source, players)).ToArray();
-                this.dataLoaded = true;
-            })
-        });
+        this.load();
+
     }
 
     back() {
@@ -55,4 +50,18 @@ export class StatComponent implements OnInit {
         return Object.keys(value).map(key => value[key]);
     }
 
+    load(){
+        this._firebaseService.getAllMatches().then(matches => {
+            this._firebaseService.getAllPlayers().then(players => {
+                this.totalStats = new Stats(matches, players);
+                this.dayStats = Enumerable.From(matches).GroupBy(match => match.date).Select(group => new Stats(group.source, players)).ToArray();
+                this.dataLoaded = true;
+            })
+        });
+    }
+
+    updateWeeks(){
+        this._firebaseService.weeks = this.weeks;
+        this.load();
+    }
 }
