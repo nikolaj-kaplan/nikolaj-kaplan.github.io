@@ -1,9 +1,9 @@
 <div class="score">
   <label style="position: fixed; margin: 0 auto; left:0; right: 0; width: 92px;" class="btn btn-default" (click)="swap()">Byt side</label>
-  <div id="left" class="c1" [ngClass]="{winner: teamLScore >= 10, looser: teamRScore >= 10}">
+  <div id="left" class="c1" [ngClass]="{winner: teamLScore >= 10, looser: teamRScore >= 10}" (click)="startAddGoal(teamL)">
     <span class="number">{{teamLScore}}</span>
   </div>
-  <div id="right" class="c2" [ngClass]="{winner: teamRScore >= 10, looser: teamLScore >= 10}">
+  <div id="right" class="c2" [ngClass]="{winner: teamRScore >= 10, looser: teamLScore >= 10}" (click)="startAddGoal(teamR)">
     <span class="number">{{teamRScore}}</span>
   </div>
   <div style="clear: both;"></div>
@@ -16,13 +16,39 @@
   <!-- <span style="position: fixed; margin: auto; left:0; right: 0; top:0; bottom:0; width: 70px; height: 245px; font-size: 50vw; line-height: 0;">:</span> -->
 </div>
 
-<div style="position: fixed; bottom: 0; left: 0; padding: 10px; font-size: 2.7vw; background-color: rgba(47, 70, 64, 0.5);">
+<div (click)="startAddGoal(teamL)" style="position: fixed; bottom: 0; left: 0; padding: 10px; font-size: 2.7vw; background-color: rgba(47, 70, 64, 0.5);">
   <ul class="no-bullets" *ngIf="match">
-    <li (click)="addGoal(player)" *ngFor="#player of teamL"><span>{{player}}</span><span [hidden]="getScore(player) === 0"> - {{getScore(player)}}</span></li>
+    <li *ngFor="#player of teamL">
+      <span>{{player}}</span>
+      <span [hidden]="getScore(player) === 0">: {{getScore(player)}}</span>
+    </li>
   </ul>
 </div>
-<div style="position: fixed; bottom: 0; right: 0; padding: 10px; font-size: 2.7vw;  background-color: rgba(47, 70, 64, 0.5);">
+<div (click)="startAddGoal(teamR)" style="position: fixed; bottom: 0; right: 0; padding: 10px; font-size: 2.7vw;  background-color: rgba(47, 70, 64, 0.5);">
   <ul class="no-bullets" *ngIf="match">
-    <li (click)="addGoal(player)" *ngFor="#player of teamR"><span>{{player}}</span><span [hidden]="getScore(player) === 0"> - {{getScore(player)}}</span></li>
+    <li *ngFor="#player of teamR">
+      <span>{{player}}</span>
+      <span [hidden]="getScore(player) === 0">: {{getScore(player)}}</span>
+    </li>
   </ul>
 </div>
+<div *ngIf="stateObject.state == 'addingScorer'" class="overlay">
+<span>Hvem scorede?</span>
+  <ul class="no-bullets">
+    <li (click)="addGoal(player)" *ngFor="#player of stateObject.team"><span>{{player}}</span></li>
+  </ul>
+  <div class="buttons-left">
+      <label class="btn btn-default" (click)="cancel()">Fortryd</label>
+  </div>
+</div>
+<div *ngIf="stateObject.state == 'addingAssist'" class="overlay">
+  <span>Assist?</span>
+  <ul class="no-bullets">
+    <li (click)="addAssist(player)" *ngFor="#player of stateObject.assistPlayers"><span>{{player}}</span></li>
+  </ul>
+  <div class="buttons-left">
+      <label *ngIf="stateObject.countdown >= 0">{{stateObject.countdown}}</label>
+      <label *ngIf="stateObject.countdown >= 0" class="btn btn-default" (click)="stopCounting()">Hold op med at tælle. Jeg får stress!</label>
+    <label class="btn btn-default" (click)="cancel()">Ingen assist</label>
+  </div>
+</div>  

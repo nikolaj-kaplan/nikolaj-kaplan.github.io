@@ -3,6 +3,9 @@ import { Router } from 'angular2/router';
 import {RouteParams} from 'angular2/router';
 import { Day, Match } from '../objects';
 import {FirebaseService} from '../data/firebase.service';
+import { StaticKeys } from 'angular2/src/core/linker/element';
+
+declare var Enumerable: any;
 
 
 @Component({
@@ -18,6 +21,7 @@ export class MatchComponent implements OnInit {
     teamRScore: number;
     currentTeam: string[];
     swapped: boolean;
+    stateObject: any = {};
 
     get teamL() {
         if (!this.match) return [];
@@ -78,6 +82,28 @@ export class MatchComponent implements OnInit {
     addGoal(player) {
         this.match.goals.push(player);
         this._firebaseService.updateMatchGoals(this.match);
+
+        var team = this.match.team1.indexOf(player) >= 0 ? this.match.team1 : this.match.team2;
+        this.stateObject.state = "addingAssist";
+        this.stateObject.team = team;
+        this.stateObject.goalScorer = player;
+        this.stateObject.assistPlayers = Enumerable.From(this.stateObject.team).Where(x => x != player).ToArray();
+        this.stateObject.countdown = 10;
+        this.doCountdown();
+    }
+
+    doCountdown(){
+        setTimeout(() => {
+            if(!this.stateObject.countdown || this.stateObject.countdown < 0){
+                return;
+            }
+            this.stateObject.countdown--;
+            if(this.stateObject.countdown == 0) {
+                this.cancel();
+                return;
+            }
+            this.doCountdown();
+        }, 1000);
     }
 
     removeLastGoal() {
@@ -110,5 +136,25 @@ export class MatchComponent implements OnInit {
                 this._firebaseService.deleteCurrentMatch().then(() => this._router.navigate(['Day']));
             }
         }
+    }
+
+    startAddGoal(team) {
+        this.stateObject.state = "addingScorer";
+        this.stateObject.team = team;
+    }
+
+    cancel() {
+        this.stateObject = {};
+    }
+
+    addAssist(player){
+        this.match.assists.push(player);
+        this._firebaseService.updateMatchAssists(this.match);
+        this.stateObject.countdown = -1;
+        this.cancel();
+    }
+
+    stopCounting(){
+        this.stateObject.countdown = -1;
     }
 }

@@ -17,10 +17,17 @@ export class Player {
     matches: number;
     wins: number;
     goals: number;
+    assists: number;
+    winningGoals: number;
 
     get goalsPrMatch(): string {
         if (this.matches == 0) return '0';
         return (this.goals / this.matches).toFixed(2);
+    }
+
+    get assistsPrMatch(): string {
+        if (this.matches == 0) return '0';
+        return (this.assists / this.matches).toFixed(2);
     }
 
     get winsPercentageString(): string {
@@ -31,7 +38,6 @@ export class Player {
         if (this.matches == 0) return 0;
         return (this.wins / this.matches * 100);
     }
-
 }
 
 export class Match {
@@ -39,6 +45,7 @@ export class Match {
     team1: string[];
     team2: string[];
     goals: string[];
+    assists: string[];
     key: string; //firebase key
 
     constructor() {
@@ -52,6 +59,7 @@ export class Match {
         this.team1 = match.team1;
         this.team2 = match.team2;
         this.goals = match.goals;
+        this.assists = match.assists;
         this.key = match.key;
         this.ensureNoUndefined();
     }
@@ -66,6 +74,9 @@ export class Match {
         }
         if (!this.goals) {
             this.goals = [];
+        }
+        if (!this.assists) {
+            this.assists = [];
         }
     }
 
@@ -109,11 +120,14 @@ export class Stats {
 
         //calculate goals
         var goalCount = Enumerable.From(this.matches).SelectMany(x => x.goals).GroupBy(name => name).Select(group => ({ name: group.Key(), goals: group.source.length }));
+        var assistsCount = Enumerable.From(this.matches).SelectMany(x => x.assists).GroupBy(name => name).Select(group => ({ name: group.Key(), assists: group.source.length }));
         this.players.forEach(p => {
             var goalsObject = goalCount.FirstOrDefault(undefined, x => x.name === p.name);
-            if (goalsObject) {
-                p.goals = goalsObject.goals;
-            }
+            p.goals = goalsObject ? goalsObject.goals : 0;
+            var assistsObject = assistsCount.FirstOrDefault(undefined, x => x.name === p.name);
+
+            p.assists = assistsObject ? assistsObject.assists : 0;
+            p.winningGoals = Enumerable.From(this.matches).Where(m => m.goals[m.goals.length - 1] == p.name).ToArray().length;
         });
 
         //calculate matches
@@ -127,7 +141,7 @@ export class Stats {
             .From(this.players)
             .Where(p => p.matches > 0)
             .Where(p => this.include(p))
-            .OrderBy(p => - (p.winsPercentage * 100) - p.goals)
+            .OrderBy(p => - (p.winsPercentage * 100))
             .ToArray();
     }
 

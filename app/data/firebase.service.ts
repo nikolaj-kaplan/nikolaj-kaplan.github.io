@@ -92,6 +92,11 @@ export class FirebaseService {
         matchRef.child("goals").set(match.goals);
     }
 
+    updateMatchAssists(match: Match) {
+        var matchRef = this.getMatchRootRef().child(match.key);
+        matchRef.child("assists").set(match.assists);
+    }
+
     addCallback(match: Match, callback: any) {
         var matchRef = this.getMatchRootRef().child(match.key);
         matchRef.on("value", callback);
