@@ -5,7 +5,7 @@ import { Day, Match } from '../objects';
 export class FirebaseService {
     baserUrl = "https://multihockey.firebaseio.com/";
     club: string;
-    weeks: number = 10;
+    weeks: number = 20;
 
 
     constructor() {
