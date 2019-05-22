@@ -32,23 +32,28 @@
     </li>
   </ul>
 </div>
-<div *ngIf="stateObject.state == 'addingScorer'" class="overlay">
+<div *ngIf="stateObject.state == 'addingScorer'" class="my-modal">
+  <div class="my-modal-content">
 <span>Hvem scorede?</span>
   <ul class="no-bullets">
     <li (click)="addGoal(player)" *ngFor="#player of stateObject.team"><span>{{player}}</span></li>
   </ul>
-  <div class="buttons-left">
+  <div>
       <label class="btn btn-default" (click)="cancel()">Fortryd</label>
   </div>
 </div>
-<div *ngIf="stateObject.state == 'addingAssist'" class="overlay">
+</div>
+
+<div *ngIf="stateObject.state == 'addingAssist'" class="overlay" class="my-modal">
+    <div class="my-modal-content">
   <span>Assist?</span>
   <ul class="no-bullets">
     <li (click)="addAssist(player)" *ngFor="#player of stateObject.assistPlayers"><span>{{player}}</span></li>
   </ul>
-  <div class="buttons-left">
+  <div>
       <label *ngIf="stateObject.countdown >= 0">{{stateObject.countdown}}</label>
       <label *ngIf="stateObject.countdown >= 0" class="btn btn-default" (click)="stopCounting()">Hold op med at tælle. Jeg får stress!</label>
     <label class="btn btn-default" (click)="cancel()">Ingen assist</label>
+  </div>
   </div>
 </div>  

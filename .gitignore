@@ -4,3 +4,7 @@ node_modules/
 npm-debug.log
 
 \.firebase/hosting\.0\.cache
+
+\.vs/multiHockey/v15/\.suo
+
+\.vs/
